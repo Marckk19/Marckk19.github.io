@@ -1,0 +1,281 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Administración de Restaurante</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>Sistema de Administración</h1>
+        <p id="currentDate" style="color: #6b7280; font-size: 0.875rem;"></p>
+      </div>
+      <div class="header-right">
+        <div class="trial-banner">
+          <span id="withdrawBtn">Retiro</span>
+        </div>
+        <div class="backup-container">
+          <button id="backupBtn" class="backup-btn" title="Crear copia de seguridad">
+            <i class="fas fa-cloud-download-alt"></i>
+          </button>
+        </div>
+      </div>
+      
+    </header>
+
+    <div class="dashboard">
+      <div class="stat-card">
+        <h3>Total Vendido</h3>
+        <div class="value" id="totalSales">$0.00</div>
+      </div>
+      <div class="stat-card">
+        <h3>Dinero Invertido</h3>
+        <div class="value" id="totalInvested">$0.00</div>
+        <button id="clearInvestedButton" class="add-product-btn" style="background: var(--red-color); color: white;">Limpiar Dinero Invertido</button>
+      </div>
+      <div class="stat-card">
+        <h3>Cantidad de Pedidos</h3>
+        <div class="value" id="totalOrders">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Cantidad de Artículos</h3>
+        <div class="value" id="totalProducts">0</div>
+        <button id="printInventoryButton" class="add-product-btn" style="background: var(--blue-color); color: white;">Imprimir Inventario</button>
+      </div>
+    </div>
+
+    <div class="order-tabs">
+      <button class="tab-btn active" data-section="inventory">Inventario</button>
+      <button class="tab-btn" data-section="orders">Pedidos</button>
+      <button class="tab-btn" data-section="in-progress">En progreso</button>
+      <button class="tab-btn" data-section="delivering">Enviando/Recogiendo</button>
+      <button class="tab-btn" data-section="completed">Completado</button>
+      <button class="tab-btn" data-section="transactions">Transacciones</button>
+      <button class="tab-btn" data-section="statistics">Estadísticas</button>
+    </div>
+
+    <main id="content-area">
+      <div class="section active" id="inventory">
+        <div class="inventory-section">
+          <div class="inventory-header">
+            <div class="search-container">
+              <input type="text" id="inventorySearch" placeholder="Buscar producto por nombre" class="search-input">
+            </div>
+            <button class="add-product-btn" id="addProductBtn" style="background: var(--red-color);">Añadir Producto</button>
+          </div>
+          <div class="inventory-grid" id="inventoryGrid">
+            <!-- Inventory items will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="orders">
+        <nav class="order-nav">
+          <div class="search-container">
+            <input type="text" placeholder="Buscar por ID de pedido" id="orderIdSearch" class="search-input">
+            <input type="text" placeholder="Buscar por nombre de cliente" id="orderNameSearch" class="search-input">
+          </div>
+          <button class="new-order-btn" id="newOrderBtn">+ Nuevo Pedido</button>
+        </nav>
+        
+        <div class="orders-container">
+          <!-- Orders will be added here dynamically -->
+        </div>
+      </div>
+
+      <div class="section" id="in-progress">
+        <div class="orders-container">
+          <!-- Orders in progress will be added here dynamically -->
+        </div>
+      </div>
+
+      <div class="section" id="delivering">
+        <div class="orders-container">
+          <!-- Orders being delivered will be added here dynamically -->
+        </div>
+      </div>
+
+      <div class="section" id="completed">
+        <nav class="completed-nav">
+          <button class="tab-btn" id="showActiveBtn">Pedidos Activos</button>
+          <button class="tab-btn" id="showArchivedBtn">Pedidos Archivados</button>
+        </nav>
+        <div class="orders-container">
+          <!-- Completed orders will be added here dynamically -->
+        </div>
+      </div>
+
+      <div class="section" id="transactions">
+        <div class="transactions-header">
+          <h2>Registro de Transacciones</h2>
+          <button id="addTransactionBtn" class="add-transaction-btn" style="background: var(--red-color); color: white;">+ Nueva Transacción</button>
+        </div>
+        <div class="transactions-table-container">
+          <table class="transactions-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsBody">
+              <!-- Transactions will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section" id="statistics">
+        <div class="statistics-header">
+          <h2>Estadísticas de Ventas</h2>
+          <div class="statistics-filters">
+            <select id="statisticsMonthSelect" class="statistics-month-select">
+              <!-- Months will be populated dynamically -->
+            </select>
+            <select id="statisticsYearSelect" class="statistics-year-select">
+              <!-- Years will be populated dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="statistics-content">
+          <div class="top-products-section">
+            <h3>Productos Más Vendidos</h3>
+            <div id="topProductsList" class="top-products-list">
+              <!-- Top products will be dynamically populated -->
+            </div>
+          </div>
+          <div class="statistics-charts">
+            <div class="sales-chart">
+              <h3>Ventas por Producto</h3>
+              <canvas id="salesChart"></canvas>
+            </div>
+            <div class="revenue-chart">
+              <h3>Ingresos por Producto</h3>
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="newOrderModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeNewOrderModal">&times;</span>
+        <h2>Nuevo Pedido</h2>
+        <form id="newOrderForm">
+          <input type="text" name="customerName" placeholder="Nombre del cliente" required>
+          <input type="tel" name="customerPhone" placeholder="Teléfono del cliente" required>
+          <div class="product-selection">
+            <select name="product" id="productSelect">
+              <option value="">Seleccionar producto</option>
+            </select>
+            <input type="number" name="quantity" placeholder="Cantidad" min="0" value="0">
+            <button type="button" class="add-to-order-btn" id="addToOrderBtn">Agregar al pedido</button>
+          </div>
+          <div class="order-summary">
+            <h3>Resumen del pedido</h3>
+            <div id="orderItems"></div>
+            <div class="order-total">Total: $<span id="orderTotal">0.00</span></div>
+          </div>
+          <button type="submit" class="create-order-btn">Crear Pedido</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="inventoryModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeInventoryModal">&times;</span>
+        <h2>Añadir Producto</h2>
+        <form id="inventoryForm" class="inventory-form">
+          <div class="input-group">
+            <input type="text" name="productName" placeholder="Nombre del producto" required>
+            <input type="number" name="buyPrice" placeholder="Precio de compra" step="0.01" required>
+          </div>
+          <div class="input-group">
+            <input type="number" name="sellPrice" placeholder="Precio de venta" step="0.01" required>
+            <input type="number" name="quantity" placeholder="Cantidad" required>
+          </div>
+          <input type="file" name="image" accept="image/*">
+          <input type="url" name="imageUrl" placeholder="URL de la imagen (opcional)">
+          <button type="submit" class="add-product-btn">Añadir Producto</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeEditModal">&times;</span>
+        <h2>Editar Producto</h2>
+        <form id="editForm" class="inventory-form">
+          <div class="input-group">
+            <input type="text" name="productName" placeholder="Nombre del producto" required>
+            <input type="number" name="buyPrice" placeholder="Precio de compra" step="0.01" required>
+          </div>
+          <div class="input-group">
+            <input type="number" name="sellPrice" placeholder="Precio de venta" step="0.01" required>
+            <input type="number" name="quantity" placeholder="Cantidad" required>
+          </div>
+          <input type="hidden" name="imageUrl" id="imageUrlEdit">
+          <div class="inventory-item-options">
+            <button type="button" id="saveProductBtn">Guardar Cambios</button>
+            <button type="button" class="delete-btn" id="deleteProductBtn">Eliminar Producto</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="editOrderModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Pedido</h2>
+        <form id="editOrderForm">
+          <input type="text" name="customerName" placeholder="Nombre del cliente" required>
+          <input type="tel" name="customerPhone" placeholder="Teléfono del cliente" required>
+          <div class="product-selection">
+            <select name="product" id="editProductSelect">
+              <option value="">Seleccionar producto</option>
+            </select>
+            <input type="number" name="quantity" placeholder="Cantidad" min="0" value="0">
+            <button type="button" class="add-to-order-btn" id="editAddToOrderBtn">Agregar al pedido</button>
+          </div>
+          <div class="order-summary">
+            <h3>Resumen del pedido</h3>
+            <div id="editOrderItems"></div>
+            <div class="order-total">Total: $<span id="editOrderTotal">0.00</span></div>
+          </div>
+          <button type="submit" class="create-order-btn">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Function to format date in Spanish
+    function formatSpanishDate(date) {
+      const months = [
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      ];
+
+      return `${date.getDate()} de ${months[date.getMonth()]}`;
+    }
+
+    // Set the current date when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentDateElement = document.getElementById('currentDate');
+      currentDateElement.textContent = formatSpanishDate(new Date());
+    });
+  </script>
+</body>
+</html>
